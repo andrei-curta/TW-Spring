@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Admin page</title>
+    </head>
+    <body>
+        <h1>Welcome ADMIN </h1>
+        <h1 th:text="${session.username}" th:unless="${session == null}">[...]</h1>
+
+        <div align="center">
+
+            <table border="1" style="width:600px;">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Role</th>
+                        <th>Edit Role</th>
+                        <th>Add Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="user : ${users}">
+                        <td th:text="${user.username}"></td>
+                        <td>
+                            <div th:switch="${user.roleList}" align="left">
+                                <p th:case="null">-</p>
+                                <div th:case="*">
+
+                                    <ul th:each="role : ${user.roleList}">
+                                        <li th:text="${role.resource.name}"></li>
+                                        <div th:switch="${role.rightList}" align="left">
+                                            <p th:case="null">-</p>
+                                            <div th:case="*">
+                                                <ul th:each="right : ${role.rightList}">
+                                                    <li th:text="${right.name}"></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </ul>
+                                </div>
+                            </div>
+                        </td>
+                        <td><a th:href="@{/admin/editUser/{id}(id=${user.id})}" class="btn">Edit</a></td>
+                        <td><a th:href="@{/admin/addUser/{id}(id=${user.id})}" class="btn">Add</a></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <br/>
+            <br/>
+
+            <a href="/admin/role" class="btn"> Add Role</a>
+            <table border="1" style="width:600px;">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Roles</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="role : ${roles}">
+                        <td th:text="${role.id}"></td>
+                        <td>
+                            <ul>
+                                <li th:text="${role.resource.name}"></li>
+                                <div th:switch="${role.rightList}" align="left">
+                                    <p th:case="null">-</p>
+                                    <div th:case="*">
+                                        <ul th:each="right : ${role.rightList}">
+                                            <li th:text="${right.name}"></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

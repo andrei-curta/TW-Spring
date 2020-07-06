@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title>Add Student</title>
+    </head>
+
+    <body>
+        <h3> Add Student</h3>
+
+        <form action="#" th:action="@{/admin/addRole}" th:object="${resource}" method="post">
+            <div class="row">
+                <label> Student </label>
+                <select class="form-control" th:field="${resource.id}">
+                    <option th:each="stud : ${resources}" th:value="${stud.id}" th:text="${stud.name}"></option>
+                </select>
+                <label> Create </label>
+                <input
+                        type="checkbox"
+                        name="isCreated"/>
+                <label> Read </label>
+                <input
+                        type="checkbox"
+                        name="isReaded"/>
+                <label> Update </label>
+                <input
+                        type="checkbox"
+                        name="isUpdated"/>
+                <label> Delete </label>
+                <input
+                        type="checkbox"
+                        name="isDeleted"/>
+                <input type="submit" class="btn" value="Add Role">
+            </div>
+        </form>
+
+    </body>
+
+</html>

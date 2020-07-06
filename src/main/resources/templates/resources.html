@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Resources</title>
+</head>
+
+<body>
+
+<div th:replace="../fragments/headerAdmin">...</div>
+
+<div class="container">
+    <form action="#" th:action="@{/resources/add}" th:object="${resource}" method="post">
+        <div class="form-row">
+            <div class="col-2">
+                <input type="text" th:field="*{name}" id="name" placeholder="Name" class="form-control">
+            </div>
+            <div class="col-8">
+                <input type="text" th:field="*{text}" id="text" placeholder="Text" class="form-control">
+            </div>
+            <div class="col">
+                <input type="submit" class="btn btn-primary" value="Add resource">
+            </div>
+        </div>
+    </form>
+
+    <br/>
+
+    <div th:if="${userREsources.isEmpty()}">
+        <div class="alert alert-primary" role="alert">
+            Nu exista resurse!
+        </div>
+    </div>
+
+    <div th:if="${!userREsources.isEmpty()}">
+        <div class="accordion" id="accordionResources">
+            <div th:each="resource : ${userREsources}" class="card">
+                <div class="card-header container-fluid" th:id="'heading' + ${resource.getId()}">
+
+                    <div class="row">
+                        <h2 class="col-md-10">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    th:data-target="'#collapse' + ${resource.getId()}" aria-expanded="false"
+                                    th:aria-controls="'collapse' + ${resource.getId()}">
+                                <span th:text="${resource.getName()}" th:remove="tag">title</span>
+                            </button>
+                        </h2>
+                        <div class="col-md-2 float-right">
+                            <form th:action="@{/resources/delete/{id}(id=${resource.getId()})}" method="delete">
+                                <button class="btn btn-danger" type="submit">
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
+
+                    </div>
+                    <div th:id="'collapse' + ${resource.getId()}" class="collapse"
+                         th:aria-labelledby="'heading' + ${resource.getId()}"
+                         data-parent="#accordionResources">
+                        <div class="card-body">
+                            <form th:action="@{/resources/save/{idResource}(idResource=${resource.getId()})}" method="post" class="card-body">
+                                <span th:if="${session.userType}" th:text="${resource.getText()}" th:remove="tag"/>
+                                <textarea class="form-control" id="resourceText" name="resourceText" th:text="${resource.getText()}" ></textarea>
+                                <button class="btn btn-primary" type="submit">
+                                    Salveaza
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <!--<div th:switch="${resources}" align="center">-->
+    <!--&lt;!&ndash;    <a href="/students/signup" class="btn"> Add Student</a>&ndash;&gt;-->
+    <!--    <h2 th:case="null">No Students yet!</h2>-->
+    <!--    <br/>-->
+    <!--    <div th:case="*">-->
+    <!--        <table border="1" style="width:600px;">-->
+    <!--            <thead>-->
+    <!--            <tr>-->
+    <!--                <th>Name</th>-->
+    <!--                <th>Email</th>-->
+    <!--                <th>Phone No</th>-->
+    <!--                <th>Edit</th>-->
+    <!--                <th>Delete</th>-->
+    <!--            </tr>-->
+    <!--            </thead>-->
+    <!--            <tbody>-->
+    <!--            <tr th:each="resource : ${students}">-->
+    <!--                <td th:text="${resource.name}"></td>-->
+    <!--                <td th:text="${resource.email}"></td>-->
+    <!--                <td th:text="${resource.phoneNo}"></td>-->
+    <!--                <td><a th:href="@{/students/edit/{id}(id=${resource.id})}" class="btn">Edit</a></td>-->
+    <!--                <td><a th:href="@{/students/delete/{id}(id=${resource.id})}" class="btn">Delete</a></td>-->
+    <!--            </tr>-->
+    <!--            </tbody>-->
+    <!--        </table>-->
+    <!--    </div>-->
+    <!--</div>-->
+
+</body>
+
+</html>

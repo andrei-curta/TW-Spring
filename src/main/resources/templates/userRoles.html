@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User roles</title>
+</head>
+<body>
+<div th:replace="../fragments/headerAdmin">...</div>
+
+<div class="container">
+    <form  th:action="@{/userRoles/{idUser}/role/add(idUser=${user.getId()})}" method="post">
+        <div class="form-row">
+            <div class="col-2">
+                <input type="text" id="name" name="name" autofocus="autofocus" class="form-control"/>
+            </div>
+            <div class="col">
+                <input type="submit" class="btn btn-primary" value="Add role">
+            </div>
+        </div>
+    </form>
+
+    <br/>
+
+    <div
+            th:name="${user.getId()}"
+            id="123"
+    >
+        <div class="form-row">
+            <div class="col-4">
+                <select class="form-control" id="dropRoles" placeholder="Selecteaza rol">
+                    <option th:each="role : ${roles}" th:value="${role.getId()}"
+                            th:text="${role.getName()}" id="role" name="role"></option>
+                </select>
+            </div>
+            <div class="col-3">
+                <!--                <input type="text" th:field="*{name}" id="name" placeholder="Name" class="form-control">-->
+                <select class="form-control" id="dropResources" placeholder="Selecteaza resursa">
+                    <option th:each="resource : ${resources}" th:value="${resource.getId()}"
+                            th:text="${resource.getName()}" id="selectedResource" name="selectedResource"></option>
+                </select>
+            </div>
+            <div class="col-3">
+                <select class="form-control" id="dropRights" placeholder="Selecteaza dreptul">
+                    <option th:each="right : ${rights}" th:value="${right.getId()}"
+                            th:text="${right.getName()}" id="right" name="right"></option>
+                </select>
+            </div>
+            <div class="col">
+                <button onclick="addRight()" class="btn btn-primary" value="Add right">Add</button>
+                <!--                <button onclick="addRight()">AddRight</button>-->
+            </div>
+        </div>
+    </div>
+
+
+    <div th:if="${!roles.isEmpty()}">
+        <div class="accordion" id="accordionResources">
+            <div th:each="role : ${roles}" class="card">
+                <div class="card-header container-fluid" th:id="'heading' + ${role.getId()}">
+
+                    <div class="row">
+                        <h2 class="col-md-10">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    th:data-target="'#collapse' + ${role.getId()}" aria-expanded="false"
+                                    th:aria-controls="'collapse' + ${role.getId()}">
+                                <span th:text="${role.getName()}" th:remove="tag">title</span>
+                            </button>
+                        </h2>
+                        <div class="col-md-2 float-right">
+                            <form th:action="@{/userRoles/{idUser}/role/{idRole}/delete(idUser=${user.getId()}, idRole=${role.getId()})}" method="post">
+                                <button class="btn btn-danger" type="submit">
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
+
+                    </div>
+                    <div th:id="'collapse' + ${role.getId()}" class="collapse"
+                         th:aria-labelledby="'heading' + ${role.getId()}"
+                         data-parent="#accordionResources">
+                        <div class="card-body">
+                            <ul th:each="resourceRight : ${role.getResourcesRights()}" class="list-group">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div th:text="${resourceRight.getFirst().getName()}"></div>
+                                    <span class="badge badge-primary badge-pill">
+                                            <div th:text="${resourceRight.getSecond().getName()}"></div>
+                                        </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    function addRight() {
+        console.log("da");
+        var dropDownRoles = document.getElementById("dropRoles");
+        var idRole = dropDownRoles.options[dropDownRoles.selectedIndex].value;
+
+        var dropDownResources = document.getElementById("dropResources");
+        var idResource = dropDownResources.options[dropDownResources.selectedIndex].value;
+
+        var dropDownRights = document.getElementById("dropRights");
+        var idRight = dropDownRights.options[dropDownRights.selectedIndex].value;
+
+        var idUser = document.getElementById("123").getAttribute("name");
+
+        console.log(`/userRoles/${idUser}/${idRole}/${idResource}/${idRight}`);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", `/userRoles/${idUser}/${idRole}/${idResource}/${idRight}`);
+        //xhr.setRequestHeader("Content-Type", "application/json");
+
+        xhr.send();
+    }
+</script>
+</html>

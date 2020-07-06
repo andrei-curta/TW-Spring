@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Register</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"
+            integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+
+<!--<div class="col-md-4">-->
+<!--    <h1>Register</h1>-->
+<!--    <div th:if="${usernameTaken}" class="alert alert-danger" role="alert">Username already taken</div>-->
+<!--    <div th:if="${passwordsDontMatch}" class="alert alert-danger" role="alert">The entered passwords do not match</div>-->
+<!--    <div th:if="${blankFields}" class="alert alert-danger" role="alert">Fill in all the fields</div>-->
+<!--    <form th:action="@{/register}" method="post">-->
+<!--        <div class="form-group row">-->
+<!--            <label for="username" class="col-sm-2 col-form-label col-form-label-sm">-->
+<!--                Username-->
+<!--            </label>-->
+<!--            <input type="text" id="username" name="username" autofocus="autofocus" class="form-control form-control-sm"/>-->
+<!--            <div class="invalid-feedback">-->
+<!--                Please provide a valid city.-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="form-group row">-->
+<!--            <label for="password1" class="col-sm-2 col-form-label col-form-label-sm">-->
+<!--                Password-->
+<!--            </label>-->
+<!--            <input type="password" id="password1" name="password1" class="form-control form-control-sm"/>-->
+<!--        </div>-->
+<!--        <div class="form-group row">-->
+<!--            <label for="password2">-->
+<!--                Retype password-->
+<!--            </label>-->
+<!--            <input type="password" id="password2" name="password2" class="form-control form-control-sm"/>-->
+<!--        </div>-->
+<!--        <input type="submit" class="btn btn-primary" value="Register"/>-->
+<!--    </form>-->
+<!--</div>-->
+
+<div class="col-md-4">
+    <h1>Register</h1>
+    <form th:action="@{/register}" method="post">
+        <div class="form-group">
+            <label for="username">
+                Username
+            </label>
+            <input type="text" id="username" name="username" autofocus="autofocus" class="form-control"/>
+            <div class="invalid-feedback">
+                Please provide a valid city.
+            </div>
+<!--            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+        </div>
+        <div class="form-group">
+            <label for="password1" >
+                Password
+            </label>
+            <input type="password" id="password1" name="password1" class="form-control"/>
+        </div>
+        <div class="form-group">
+            <label for="password2">
+                Retype password
+            </label>
+            <input type="password" id="password2" name="password2" class="form-control "/>
+        </div>
+        <div th:if="${usernameTaken}" class="alert alert-danger" role="alert">Username already taken</div>
+        <div th:if="${passwordsDontMatch}" class="alert alert-danger" role="alert">The entered passwords do not match
+        </div>
+        <div th:if="${blankFields}" class="alert alert-danger" role="alert">Fill in all the fields</div>
+        <button type="submit" value="Register" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+</body>
+</html>

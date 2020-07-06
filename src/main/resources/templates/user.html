@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title>Students</title>
+    </head>
+
+    <body>
+
+        <div th:switch="${students}" align="center">
+            <a href="/students/signup" class="btn"> Add Student</a>
+            <h2 th:case="null">No Students yet!</h2>
+            <br/>
+            <div th:case="*">
+                <table border="1" style="width:600px;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone No</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="resource : ${students}">
+                            <td th:text="${resource.name}"></td>
+                            <td th:text="${resource.email}"></td>
+                            <td th:text="${resource.phoneNo}"></td>
+                            <td><a th:href="@{/students/edit/{id}(id=${resource.id})}" class="btn">Edit</a></td>
+                            <td><a th:href="@{/students/delete/{id}(id=${resource.id})}" class="btn">Delete</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </body>
+
+</html>
